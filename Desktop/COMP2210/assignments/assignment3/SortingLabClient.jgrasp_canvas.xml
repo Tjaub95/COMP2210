@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Canvas xmlns="http://www.jgrasp.org">
+  <Language>Java</Language>
+  <ShowTypes>false</ShowTypes>
+  <Version>2</Version>
+  <Grid>
+    <Snap>true</Snap>
+    <Show>false</Show>
+  </Grid>
+  <Scope id="0">
+    <Name>main</Name>
+    <Signature>([Ljava/lang/String;)V</Signature>
+    <DeclaringType>SortingLabClient</DeclaringType>
+    <Depth>0</Depth>
+  </Scope>
+  <Frame>
+    <Bounds>
+      <AutoSize>false</AutoSize>
+      <X>30</X>
+      <Y>70</Y>
+      <W>1378</W>
+      <H>168</H>
+    </Bounds>
+    <PanelSize>
+      <Key>_X_A_PresentationView0</Key>
+      <Order>4</Order>
+      <W>1384</W>
+      <H>200</H>
+    </PanelSize>
+    <Viewer>
+      <ScopeID>0</ScopeID>
+      <Expression>`local java.lang.Integer[]` ai</Expression>
+      <ViewerClass>_X_A_PresentationView</ViewerClass>
+    </Viewer>
+  </Frame>
+  <Size>
+    <W>993</W>
+    <H>404</H>
+  </Size>
+  <ESize>
+    <W>993</W>
+    <H>404</H>
+  </ESize>
+</Canvas>
