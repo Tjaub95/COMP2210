@@ -10,6 +10,8 @@ public class ArraySetTest {
     *  for all tests). **/
    ArraySet<Integer> a = new ArraySet<Integer>();
    ArraySet<Integer> b = new ArraySet<Integer>();
+   Set<Integer> c = new ArraySet<Integer>();
+   Set<Integer> d = new ArraySet<Integer>();
    boolean expected;
    boolean actual;
 
@@ -89,6 +91,23 @@ public class ArraySetTest {
       a.add(9);
       a.add(8);
       actual = a.add(1);
+      System.out.print(a.toString());
+      expected = true;
+      Assert.assertEquals(actual, expected);
+   }
+   
+   @Test
+   public void add_test8() {
+      a.add(4);
+      a.add(1);
+      a.add(5);
+      a.add(3);
+      a.add(1);
+      a.add(2);
+      a.remove(4);
+      a.remove(1);
+      a.remove(5);
+      actual = a.remove(2);
       expected = true;
       Assert.assertEquals(actual, expected);
    }
@@ -278,12 +297,30 @@ public class ArraySetTest {
       a.add(1);
       a.add(2);
       a.add(3);
-      b.add(1);
       b.add(2);
       b.add(3);
-      a.union(b);
+      b.add(4);
+      a.intersection(b);
       actual = a.equals(b);
-      expected = true;
+      expected = false;
+      Assert.assertEquals(actual, expected);
+   }
+   
+   @Test
+   public void equals_test2() {
+      a.add(1);
+      a.add(2);
+      a.add(3);
+      a.add(6);
+      b.add(5);
+      b.add(4);
+      b.add(2);
+      b.add(3);
+      // c.add(1);
+      d = a.union(b);
+      System.out.println(d);
+      actual = a.equals(b);
+      expected = false;
       Assert.assertEquals(actual, expected);
    }
    
