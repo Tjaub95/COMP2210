@@ -312,12 +312,12 @@ public class ArraySetTest {
       a.add(2);
       a.add(3);
       a.add(6);
-      b.add(5);
-      b.add(4);
-      b.add(2);
-      b.add(3);
+      c.add(5);
+      c.add(4);
+      c.add(2);
+      c.add(3);
       // c.add(1);
-      d = a.union(b);
+      d = a.union(c);
       System.out.println(d);
       actual = a.equals(b);
       expected = false;
