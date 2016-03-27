@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Canvas xmlns="http://www.jgrasp.org">
+  <Language>Java</Language>
+  <ShowTypes>false</ShowTypes>
+  <Version>2</Version>
+  <Grid>
+    <Snap>true</Snap>
+    <Show>false</Show>
+  </Grid>
+  <Scope id="0">
+    <Name>add</Name>
+    <Signature>(Ljava/lang/Comparable;)Z</Signature>
+    <DeclaringType>LinkedSet</DeclaringType>
+    <Depth>31</Depth>
+  </Scope>
+  <Frame>
+    <Bounds>
+      <AutoSize>true</AutoSize>
+      <X>100</X>
+      <Y>40</Y>
+      <W>273</W>
+      <H>196</H>
+    </Bounds>
+    <Viewer>
+      <ScopeID>0</ScopeID>
+      <Expression>`local LinkedSet$Node` n</Expression>
+      <ViewerClass>java__lang__Object_LinkedView</ViewerClass>
+    </Viewer>
+  </Frame>
+  <Frame>
+    <Bounds>
+      <AutoSize>true</AutoSize>
+      <X>370</X>
+      <Y>40</Y>
+      <W>357</W>
+      <H>439</H>
+    </Bounds>
+    <Viewer>
+      <ScopeID>0</ScopeID>
+      <Expression>this</Expression>
+      <ViewerClass>java__lang__Object_LinkedView</ViewerClass>
+    </Viewer>
+  </Frame>
+  <Size>
+    <W>720</W>
+    <H>450</H>
+  </Size>
+  <ESize>
+    <W>720</W>
+    <H>450</H>
+  </ESize>
+</Canvas>
