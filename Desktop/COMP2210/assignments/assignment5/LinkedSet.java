@@ -103,49 +103,62 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
     */
    public boolean add(T element) {
       //Needs to be O(N)
+      Node n = new Node(element);
+      Node temp = new Node();
+      
       if (element == null || this.contains(element)) {
          return false;
       }
       
       if (front == null) {
-         front = new Node(element);
+         front = n;
          rear = front;
       }
       
       else if (front.element.compareTo(element) > 0) {
-         Node temp = front;
-         Node newNode = new Node(element);
-         front = newNode;
+         temp = front;
+         front = n;
          front.next = temp;
-         temp.prev = newNode;
+         temp.prev = n;
+         
       }
       
       else {
-         Node tempN = front;
+         temp = front;
          
-         while (tempN.next != null && tempN.next.element.compareTo(element) < 0) {
-            tempN = tempN.next;
+         while (temp.next != null && temp.next.element.compareTo(element) < 0) {
+            temp = temp.next;
          }
          
-         Node prevT = tempN;
-         Node insertN = new Node(element);
+         Node prevT = temp;
+            
+         if (temp.next != null) {
+            Node nextT = temp.next;
+            n.next = nextT;
+            nextT.prev = n;
+         }
          
-         if (tempN.next != null) {
-            Node nextT = tempN.next;
-            insertN.next = nextT;
-            nextT.prev = insertN;
-         }
-         prevT.next = insertN;
-         insertN.prev = prevT;
-         if (insertN.element.compareTo(prevT.element) > 0) {
-            rear = insertN;
-         }
+         prevT.next = n;
+         n.prev = prevT;
+         
       }
+      
+      rear = findLastElement(n);
             
       size++;
       
       return true;
    
+   }
+   
+   private Node findLastElement(Node n) {
+      Node finder = front;
+      
+      while (finder.next != null) {
+         finder = finder.next; 
+      }
+      
+      return finder;
    }
 
    /**
@@ -172,8 +185,21 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
          if (front != null) {
             front.prev = null;
          }
+         
+         if (n == rear) {
+            rear = rear.next;
+            if (rear != null) {
+               rear.prev = null;
+            }
+         }
       }
       else {
+         if (n == rear) {
+            rear = rear.prev;
+            if (rear != null) {
+               rear.next = null;
+            }
+         }
          n.prev.next = n.next;
          if (n.next != null) {
             n.next.prev = n.prev;
@@ -326,6 +352,8 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
          return this;
       }
       
+      
+      
      
       
       return null;
@@ -397,11 +425,15 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
       }
       
       for (T sElement : s) {
-         this.remove(sElement);
+         complementSet.add(sElement);
       }
       
       for (T thisElement : this) {
          complementSet.add(thisElement);
+      }
+      
+      for (T compElement : s) {
+         complementSet.remove(compElement);
       }
       
       
@@ -449,7 +481,7 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
     * @return  an iterator over the elements in this LinkedSet
     */
    public Iterator<T> descendingIterator() {
-      return null;
+      return new LinkedDesItr();
    }
 
 
@@ -460,38 +492,38 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
     * @return  an iterator over members of the power set
     */
    public Iterator<Set<T>> powerSetIterator() {
-      // Iterator<Set<T>> itr = new Iterator<Set<T>>() {
-   //             int value = 0;
-   //          
-   //             public boolean hasNext() {
-   //                return (value < (1 << size));
-   //             }
-   //          
-   //             public Set<T> next() {
-   //                if (!hasNext()) {
-   //                   throw new NoSuchElementException();
-   //                } 
-   //                else {
-   //                   Set<T> powSet = new LinkedSet<T>();
-   //                   Node n = front.next;
-   //                   while (n != null) {
-   //                   
-   //                      if (((value >> 1) & 1) == 1) {
-   //                      
-   //                         powSet.add(n.element);
-   //                      }
-   //                   }
-   //                   value++;              
-   //                   return powSet;
-   //                
-   //                }
-   //             }
-   //          
-   //             public void remove() {
-   //                throw new UnsupportedOperationException();
-   //             }
-   //          };
-   //       return itr;
+      /*Iterator<Set<T>> itr = new Iterator<Set<T>>() {
+                private int value = 0;
+             
+                public boolean hasNext() {
+                   return (value < (1 << size));
+                }
+             
+                public Set<T> next() {
+                   if (!hasNext()) {
+                      throw new NoSuchElementException();
+                   } 
+                   else {
+                      Set<T> powSet = new LinkedSet<T>();
+                      Node n = front;
+                      while (n != null) {
+                      
+                         if (((value >> 1) & 1) == 1) {
+                         
+                            powSet.add(n.element);
+                         }
+                      }
+                      value++;              
+                      return powSet;
+                   
+                   }
+                }
+             
+                public void remove() {
+                   throw new UnsupportedOperationException();
+                }
+             };
+          return itr;*/
       return null;
    }
 
@@ -564,6 +596,28 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
       public void remove() {
          throw new UnsupportedOperationException();
       } 
+   }
+   
+   class LinkedDesItr implements Iterator<T> {
+      private Node last = rear;
+      
+      public boolean hasNext() {
+         return last != null;
+      }
+      
+      public T next() {
+         if (!hasNext()) {
+            throw new NoSuchElementException();
+         }
+         
+         T result = last.element;
+         last = last.prev;
+         return result;  
+      }
+      
+      public void remove() {
+         throw new UnsupportedOperationException();
+      }
    }
 
 }

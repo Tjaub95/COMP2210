@@ -16,6 +16,7 @@ public class LinkedSetTest {
    @Test
    public void add_test1() {
       actual = a.add(1);
+      a.remove(1);
       expected = true;
       Assert.assertEquals(actual, expected);
    }
@@ -103,10 +104,11 @@ public class LinkedSetTest {
    
    @Test
    public void add_test9() {
-      a.add(1);
       a.add(4);
       a.add(3);
       a.add(5);
+      a.add(6);
+      a.add(2);
       
       c.add(4);
       c.add(3);
@@ -137,7 +139,7 @@ public class LinkedSetTest {
       b.add(3);
       b.add(5);
       b.add(1);
-      b.add(2);
+      // b.add(2);
       
       System.out.println(a);
       System.out.println(b);
@@ -145,8 +147,8 @@ public class LinkedSetTest {
       System.out.println(a.union(b));
       
             
-      actual = a.equals(c);
-      expected = false;
+      actual = a.equals(b);
+      expected = true;
       
       Assert.assertEquals(actual, expected);
    }
@@ -179,15 +181,15 @@ public class LinkedSetTest {
    @Test
    public void add_test12() {
       a.add(1);
-      a.add(4);
+      a.add(2);
       a.add(3);
-      a.add(5);
+      // a.add(5);
       // a.add(6);
       
       b.add(4);
       b.add(3);
-      b.add(5);
-      b.add(1);
+      // b.add(5);
+      // b.add(1);
       b.add(2);
       
       System.out.println(a);
