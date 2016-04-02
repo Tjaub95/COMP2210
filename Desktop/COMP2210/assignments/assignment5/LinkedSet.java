@@ -299,6 +299,12 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
    
       return same;
    }
+   
+   private LinkedSet(Node frontIn, Node rearIn, int sizeIn) {
+      front = frontIn;
+      rear = rearIn;
+      size = sizeIn;
+   }
 
 
    /**
@@ -341,7 +347,14 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
     */
    public Set<T> union(LinkedSet<T> s) {
       //O(max(N, M))
-      if (this.size() == s.size()) {
+      Node n = new Node();
+      Node nRear = n;
+      Node nNode = new Node();
+      Node currentInThis = this.front; 
+      Node currentInS = s.front;
+      T element;
+      int size = 0;
+      if (this.equals(s)) {
          return this;
       }
       
@@ -352,11 +365,62 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
          return this;
       }
       
+      while (currentInThis != null) {
+         if (currentInThis.element.compareTo(currentInS.element) < 0) {
+            element = currentInThis.element;
+            currentInThis = currentInThis.next;
+            nNode = new Node(element);
+            nRear.next = nNode;
+            nNode.prev = nRear;
+            nRear = nNode;
+            size++;
+         }
+         
+         else if (currentInS.element.compareTo(currentInThis.element) < 0) {
+            element = currentInS.element;
+            currentInS = currentInS.next;
+            nNode = new Node(element);
+            nRear.next = nNode;
+            nNode.prev = nRear;
+            nRear = nNode;
+            size++;
+         }
+         
+         else {
+            element = currentInThis.element;
+            currentInThis = currentInThis.next;
+            currentInS = currentInS.next;
+            nNode = new Node(element);
+            nRear.next = nNode;
+            nNode.prev = nRear;
+            nRear = nNode;
+            size++;
+         }
+      }
       
+      while (currentInThis != null) {
+         element = currentInThis.element;
+         nNode = new Node(element);
+         nRear.next = nNode;
+         nNode.prev = nRear;
+         nRear = nNode;
+         size++;
+         currentInThis = currentInThis.next;
+      }
+      while (currentInS != null) {
+         element = currentInS.element;
+         nNode = new Node(element);
+         nRear.next = nNode;
+         nNode.prev = nRear;
+         nRear = nNode;
+         size++;
+         currentInS = currentInS.next;
+      }
       
-     
-      
-      return null;
+      n = n.next;
+      n.prev = null;
+      LinkedSet<T> unionSet = new LinkedSet<T>(n, nRear, size);
+      return unionSet;
    }
 
 
@@ -404,7 +468,44 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
       else if (s.isEmpty()) {
          return s;
       }
-      return null;
+      
+      Node n = new Node();
+      Node nRear = n;
+      Node nNode = new Node();
+      Node currentInThis = this.front; 
+      Node currentInS = s.front;
+      T element;
+      int size = 0;
+      
+      while (currentInThis != null) {
+         if (currentInThis.element.compareTo(currentInS.element) < 0) {
+            element = currentInThis.element;
+            currentInThis = currentInThis.next;
+         }
+         
+         else if (currentInS.element.compareTo(currentInThis.element) < 0) {
+            element = currentInS.element;
+            currentInS = currentInS.next;
+         }
+         
+         else {
+            element = currentInThis.element;
+            currentInThis = currentInThis.next;
+            currentInS = currentInS.next;
+            nNode = new Node(element);
+            nRear.next = nNode;
+            nNode.prev = nRear;
+            nRear = nNode;
+            size++;
+         }
+      }
+      
+      n = n.next;
+      if (n != null) {
+         n.prev = null;
+      }
+      LinkedSet<T> intersectionSet = new LinkedSet<T>(n, nRear, size);
+      return intersectionSet;
    }
 
 
@@ -450,16 +551,65 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
     */
    public Set<T> complement(LinkedSet<T> s) {
       //O(max(N,M))      
-      Set<T> complementSet = new LinkedSet<T>();
+      Set<T> complementSet1 = new LinkedSet<T>();
       if (this.equals(s)) {
-         return complementSet;
+         return complementSet1;
       }
       
       if (this.isEmpty() || s.isEmpty()) {
          return this;
       }
       
-      return null;
+      Node n = new Node();
+      Node nRear = n;
+      Node nNode = new Node();
+      Node currentInThis = this.front; 
+      Node currentInS = s.front;
+      T element;
+      int size = 0;
+      
+      while (currentInThis != null) {
+         if (currentInThis.element.compareTo(currentInS.element) < 0) {
+            element = currentInThis.element;
+            currentInThis = currentInThis.next;
+            nNode = new Node(element);
+            nRear.next = nNode;
+            nNode.prev = nRear;
+            nRear = nNode;
+            size++;
+         }
+         
+         else if (currentInS.element.compareTo(currentInThis.element) < 0) {
+            element = currentInS.element;
+            currentInS = currentInS.next;
+            nNode = new Node(element);
+            nRear.next = nNode;
+            nNode.prev = nRear;
+            nRear = nNode;
+            size++;
+         }
+         
+         else {
+            element = currentInThis.element;
+            currentInThis = currentInThis.next;
+            currentInS = currentInS.next;
+         }
+      }
+      
+      while (currentInThis != null) {
+         element = currentInThis.element;
+         nNode = new Node(element);
+         nRear.next = nNode;
+         nNode.prev = nRear;
+         nRear = nNode;
+         size++;
+         currentInThis = currentInThis.next;
+      }
+      
+      n = n.next;
+      n.prev = null;
+      LinkedSet<T> complementSet = new LinkedSet<T>(n, nRear, size);
+      return complementSet;
    }
 
 
@@ -492,11 +642,12 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
     * @return  an iterator over members of the power set
     */
    public Iterator<Set<T>> powerSetIterator() {
-      /*Iterator<Set<T>> itr = new Iterator<Set<T>>() {
+      Iterator<Set<T>> itr = new Iterator<Set<T>>() {
                 private int value = 0;
+                private int orderOfPow = (int) Math.pow(2, size());
              
                 public boolean hasNext() {
-                   return (value < (1 << size));
+                   return (value < orderOfPow);
                 }
              
                 public Set<T> next() {
@@ -505,17 +656,15 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
                    } 
                    else {
                       Set<T> powSet = new LinkedSet<T>();
-                      Node n = front;
-                      while (n != null) {
+                      for (Node n = front ; n != null; n = n.next) {
                       
                          if (((value >> 1) & 1) == 1) {
                          
                             powSet.add(n.element);
                          }
                       }
-                      value++;              
-                      return powSet;
-                   
+                      value++;  
+                      return powSet;                               
                    }
                 }
              
@@ -523,8 +672,8 @@ public class LinkedSet<T extends Comparable<? super T>> implements Set<T> {
                    throw new UnsupportedOperationException();
                 }
              };
-          return itr;*/
-      return null;
+          return itr;
+       // return null;
    }
 
 
